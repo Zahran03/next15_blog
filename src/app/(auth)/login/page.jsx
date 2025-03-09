@@ -1,13 +1,14 @@
 "use client";
 
+import { login } from "@/actions/auth";
 import Link from "next/link";
 import React, { useActionState } from "react";
 
 const page = () => {
-  const [state, action, isPending] = useActionState(() => {}, undefined);
+  const [state, action, isPending] = useActionState(login, undefined);
   return (
     <div className="container w-1/2">
-      <h1 className="title">Register</h1>
+      <h1 className="title">Login</h1>
 
       <form action={action} className="space-y-4">
         <div>
