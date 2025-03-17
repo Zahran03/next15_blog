@@ -46,7 +46,7 @@ export async function register(state, formData) {
   });
 
   // create session
-  await createSession(results.insertedId.toString());
+  await createSession(results.insertedId);
   // Redirect
   redirect("/dashboard");
 }
