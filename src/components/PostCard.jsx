@@ -6,7 +6,10 @@ export default function PostCard({ post }) {
       <p className="text-slate-600 text-xs">
         {post._id.getTimestamp().toLocaleString()}
       </p>
-      <Link href="" className="block text-xl font-semibold mb-4">
+      <Link
+        href={`/posts/show/${post._id.toString()}`}
+        className="block text-xl font-semibold mb-4"
+      >
         {post.title}
       </Link>
       <p className="text-sm">{post.content}</p>
