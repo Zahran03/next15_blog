@@ -1,13 +1,18 @@
 "use client";
 import { useActionState } from "react";
 
-const BlogForm = ({ handler }) => {
+const BlogForm = ({ handler, post }) => {
   const [state, action, isPending] = useActionState(handler, undefined);
   return (
     <form action={action} className="space-y-4">
+      <input type="hidden" name="postId" defaultValue={post?._id} />
       <div>
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" defaultValue={state?.title} />
+        <input
+          type="text"
+          name="title"
+          defaultValue={state?.title || post?.title}
+        />
         {state?.errors?.title && (
           <p className="error">{state?.errors?.title}</p>
         )}
@@ -18,7 +23,7 @@ const BlogForm = ({ handler }) => {
           type="text"
           name="content"
           rows="6"
-          defaultValue={state?.content}
+          defaultValue={state?.content || post?.content}
         ></textarea>
 
         {state?.errors?.content && (
