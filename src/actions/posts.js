@@ -4,6 +4,7 @@ import { getCollection } from "@/lib/db";
 import getAuthUser from "@/lib/getAuthUser";
 import { BlogPostSchema } from "@/lib/rules";
 import { ObjectId } from "mongodb";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createPost(state, formData) {
@@ -93,4 +94,22 @@ export async function updatePost(state, formData) {
   );
   // alihkan
   redirect("/dashboard");
+}
+
+export async function deletePost(formData) {
+  const user = await getAuthUser();
+  if (!user) return redirect("/");
+
+  // temukan postingan
+  const postsCollection = await getCollection("posts");
+  const post = await postsCollection.findOne({
+    _id: ObjectId.createFromHexString(formData.get("postId")),
+  });
+
+  // cek apakah postingan ini milik nya ?
+  if (user.userId !== post.userId.toString()) return redirect("/");
+
+  postsCollection.findOneAndDelete({ _id: post._id });
+
+  revalidatePath("/dashboard");
 }

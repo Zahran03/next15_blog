@@ -1,3 +1,4 @@
+import { deletePost } from "@/actions/posts";
 import { getCollection } from "@/lib/db";
 import getAuthUser from "@/lib/getAuthUser";
 import { ObjectId } from "mongodb";
@@ -38,7 +39,16 @@ const Dashboard = async () => {
               <td className="w-1/6 text-green-500">
                 <Link href={`/posts/edit/${post._id.toString()}`}>Edit</Link>
               </td>
-              <td className="w-1/6 text-red-500">delete</td>
+              <td className="w-1/6 text-red-500">
+                <form action={deletePost}>
+                  <input
+                    type="hidden"
+                    name="postId"
+                    defaultValue={post._id.toString()}
+                  />
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
             </tr>
           ))}
         </tbody>
